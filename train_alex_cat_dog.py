@@ -16,7 +16,7 @@ data_transforms = transforms.Compose(
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 
-train_data_dir = '/Users/evnw/Research/Cats_v_Dogs/data/train-by-class'
+train_data_dir = '/Users/evnw/Research/Cats_v_Dogs/data/train_by_class'
 train_dataset = datasets.ImageFolder(train_data_dir,
                                           data_transforms)
 
@@ -99,11 +99,11 @@ for epoch in range(2):  # loop over the dataset multiple times
             running_loss = 0.0
 
         count+= 1
-        if count == 20000:
+        if count == 10000:
         	break
-    if count == 20000:
+    if count == 10000:
     	break
 
-torch.save(net.state_dict(), 'alex_cifar10.pt')
+torch.save(net.state_dict(), 'alex_cat_dog_iter10000.pt')
 
 

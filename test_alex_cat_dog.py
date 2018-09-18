@@ -10,17 +10,24 @@ import torch.optim as optim
 from matplotlib import pyplot as plt
 import numpy as np
 
-transform = transforms.Compose(
-    [transforms.ToTensor(),
+data_transforms = transforms.Compose(
+    [transforms.Resize(256),
+     transforms.CenterCrop(227),
+     transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                       download=True, transform=transform)
-testloader = torch.utils.data.DataLoader(testset, batch_size=4,
-                                         shuffle=False, num_workers=2)
 
-classes = ('plane', 'car', 'bird', 'cat',
-           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+test_data_dir = '/Users/evnw/Research/Cats_v_Dogs/data/train-by-class'
+test_dataset = datasets.ImageFolder(train_data_dir,
+                                          data_transforms)
+
+trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=4,
+                                             shuffle=True, num_workers=4)
+
+dataset_sizes = len(train_dataset)
+
+classes = train_dataset.classes
+print(classes)
 
 class AlexNet(nn.Module):
 
@@ -51,7 +58,7 @@ class AlexNet(nn.Module):
 
 net = AlexNet()
 
-net.load_state_dict(torch.load('alex_cifar10.pt'))
+net.load_state_dict(torch.load('alex_cat_dog_iter100000.pt'))
 
 
 def imshow(img):
