@@ -40,9 +40,10 @@ class FGSMAttack(object):
             self.epsilon = epsilons
 
         X = np.copy(X_nat)
+        X = transforms.ToTensor(X)
 
-        X_var = to_var(torch.from_numpy(X), requires_grad=True)
-        y_var = to_var(torch.LongTensor(y))
+        X_var = Variable(X, requires_grad=requires_grad, volatile=volatile)
+        y_var = Variable(torch.LongTensor(y), requires_grad=requires_grad, volatile=volatile)
 
         scores = self.model(X_var)
         loss = self.loss_fn(scores, y_var)
